@@ -1,10 +1,19 @@
-import { BrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
+import Landing from "./pages/Landing"
+import React from "react";
+
+const router = createBrowserRouter([
+  {
+    path:"/",
+    element: <Landing />,
+    errorElement: <div>404 Not Found</div>
+  }
+])
 
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
 )
