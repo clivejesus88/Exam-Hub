@@ -1,4 +1,4 @@
-import { Button } from "@/components/button";
+import { Button } from "@/components/Button";
 import { BookOpen, GraduationCap } from "lucide-react";
 import { motion }  from "framer-motion";
 
