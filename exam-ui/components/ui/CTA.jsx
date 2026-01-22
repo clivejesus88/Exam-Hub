@@ -38,7 +38,7 @@ export function CTA() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Ready to Excel in Science?
+          Ready to Excel in Your Exams?
         </motion.h2>
         <motion.p 
           className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
@@ -64,11 +64,6 @@ export function CTA() {
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button size="lg" variant="outline" className="border-gray-500 text-white hover:bg-gray-800">
-              Schedule a Demo
-            </Button>
-          </motion.div>
         </motion.div>
         
         <motion.div 
@@ -92,16 +87,6 @@ export function CTA() {
             </motion.div>
           ))}
         </motion.div>
-        
-        <motion.p 
-          className="mt-8 text-sm text-gray-400"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-        >
-          No credit card required • Free tier available • Cancel anytime
-        </motion.p>
       </div>
     </section>
   );

@@ -51,10 +51,6 @@ export function Hero() {
               <Button size="lg" className="bg-white text-black hover:bg-gray-200 px-8 hover:scale-105 transition-transform">
                 Start Practicing Free
               </Button>
-              <Button size="lg" variant="outline" className="border-gray-600 text-white hover:bg-gray-800 hover:scale-105 transition-transform">
-                <BookOpen className="w-5 h-5 mr-2" />
-                View Demo
-              </Button>
             </motion.div>
             
             <motion.div 
