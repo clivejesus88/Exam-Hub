@@ -2,6 +2,7 @@ import { Button } from "@/components/Button";
 import { GraduationCap, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -49,13 +50,17 @@ export function Header() {
           
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
+            <Link to="/login">
             <Button variant="ghost" className="text-gray-700">
               Sign In
             </Button>
+            </Link>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/login">
               <Button className="bg-gray-900 hover:bg-black text-white">
                 Start Free
               </Button>
+              </Link>
             </motion.div>
           </div>
           
@@ -115,12 +120,16 @@ export function Header() {
                   </motion.a>
                 ))}
                 <div className="flex flex-col gap-2 pt-4 border-t border-gray-200">
+                  <Link to="/login">
                   <Button variant="ghost" className="w-full justify-start text-gray-700">
                     Sign In
                   </Button>
+                  </Link>
+                  <Link to="/login">
                   <Button className="w-full bg-gray-900 hover:bg-black text-white">
                     Start Free
                   </Button>
+                  </Link>
                 </div>
               </nav>
             </motion.div>
