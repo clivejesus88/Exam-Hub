@@ -11,7 +11,6 @@ export function Header() {
     { label: "Features", href: "#features" },
     { label: "Subjects", href: "#subjects" },
     { label: "How It Works", href: "#how-it-works" },
-    { label: "Pricing", href: "#pricing" }
   ];
   
   return (

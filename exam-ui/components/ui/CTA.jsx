@@ -1,6 +1,7 @@
 import { Button } from "@/components/Button";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const benefits = [
   "Access 500+ practice questions",

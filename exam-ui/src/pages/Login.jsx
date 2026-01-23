@@ -2,10 +2,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-
 import { Button } from "@/components/Button";
 import { Input } from "@/components/input";
 import { Label } from "@/components/label";
+
+
 
 /* ===============================
    Motion Variants
@@ -58,7 +59,7 @@ export default function Login() {
       <motion.div
         variants={floatingFormula}
         animate="animate"
-        className="absolute top-20 left-16 text-white/20 text-2xl font-mono"
+        className="absolute top-20 left-16 text-white text-2xl font-mono"
       >
         ∫ eˣ dx
       </motion.div>
@@ -66,7 +67,7 @@ export default function Login() {
       <motion.div
         variants={floatingFormula}
         animate="animate"
-        className="absolute bottom-24 right-20 text-white/15 text-xl font-mono"
+        className="absolute bottom-24 right-20 text-white text-xl font-mono"
       >
         E = mc²
       </motion.div>
@@ -74,7 +75,7 @@ export default function Login() {
       <motion.div
         variants={floatingFormula}
         animate="animate"
-        className="absolute top-1/2 right-1/3 text-white/10 text-lg font-mono"
+        className="absolute top-1/6 right-1/3 text-white text-lg font-mono "
       >
         a² + b² = c²
       </motion.div>

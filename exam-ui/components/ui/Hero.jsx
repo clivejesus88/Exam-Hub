@@ -1,6 +1,7 @@
 import { Button } from "@/components/Button";
 import { BookOpen, GraduationCap } from "lucide-react";
 import { motion }  from "framer-motion";
+import { Link } from "react-router-dom";
 
 export function Hero() {
   return (
@@ -48,9 +49,11 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
             >
+              <Link to="/login">
               <Button size="lg" className="bg-white text-black hover:bg-gray-200 px-8 hover:scale-105 transition-transform">
                 Start Practicing Free
               </Button>
+              </Link>
             </motion.div>
             
             <motion.div 
