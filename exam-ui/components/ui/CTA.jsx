@@ -59,10 +59,12 @@ export function CTA() {
           transition={{ delay: 0.2, duration: 0.6 }}
         >
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link to="/login">
             <Button size="lg" className="bg-white text-black hover:bg-gray-200 px-8">
               Get Started Free
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
+            </Link>
           </motion.div>
         </motion.div>
         
