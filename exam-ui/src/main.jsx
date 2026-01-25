@@ -5,16 +5,22 @@ import Landing from "./pages/Landing";
 import NotFoundPage from "./pages/NotFoundPage";
 import Login from "./pages/Login";
 import React from "react";
+import Dashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
-    path:"/",
+    path: "/",
     element: <Landing />,
     errorElement: <NotFoundPage />
   },
   {
-    path:"/login",
+    path: "/login",
     element: <Login />,
+    errorElement: <NotFoundPage />
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
     errorElement: <NotFoundPage />
   }
 ])

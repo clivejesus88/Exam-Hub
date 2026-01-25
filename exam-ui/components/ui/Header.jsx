@@ -6,15 +6,15 @@ import { Link } from "react-router-dom"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+
   const navLinks = [
     { label: "Features", href: "#features" },
     { label: "Subjects", href: "#subjects" },
     { label: "How It Works", href: "#how-it-works" },
   ];
-  
+
   return (
-    <motion.header 
+    <motion.header
       className="bg-white border-b border-gray-200 sticky top-0 z-50"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -23,7 +23,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <motion.div 
+          <motion.div
             className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
           >
@@ -32,37 +32,38 @@ export function Header() {
             </div>
             <span className="text-xl font-bold text-gray-900">EduPractice</span>
           </motion.div>
-          
+
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link, index) => (
-              <motion.a
+              <Link
                 key={index}
-                href={link.href}
+                to={link.href}
                 className="text-gray-700 hover:text-gray-900 transition-colors relative"
-                whileHover={{ y: -2 }}
               >
-                {link.label}
-              </motion.a>
+                <motion.span whileHover={{ y: -2 }} className="block">
+                  {link.label}
+                </motion.span>
+              </Link>
             ))}
           </nav>
-          
+
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
             <Link to="/login">
-            <Button variant="ghost" className="text-gray-700">
-              Sign In
-            </Button>
+              <Button variant="ghost" className="text-gray-700">
+                Sign In
+              </Button>
             </Link>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/login">
-              <Button className="bg-gray-900 hover:bg-black text-white">
-                Start Free
-              </Button>
+                <Button className="bg-gray-900 hover:bg-black text-white">
+                  Start Free
+                </Button>
               </Link>
             </motion.div>
           </div>
-          
+
           {/* Mobile Menu Button */}
           <button
             className="md:hidden p-2"
@@ -94,11 +95,11 @@ export function Header() {
             </AnimatePresence>
           </button>
         </div>
-        
+
         {/* Mobile Menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div 
+            <motion.div
               className="md:hidden py-4 border-t border-gray-200"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
@@ -107,27 +108,32 @@ export function Header() {
             >
               <nav className="flex flex-col gap-4">
                 {navLinks.map((link, index) => (
-                  <motion.a
+                  <Link
                     key={index}
-                    href={link.href}
-                    className="text-gray-700 hover:text-blue-600 transition-colors px-2 py-1"
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: index * 0.1 }}
+                    to={link.href}
+                    className="block"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
-                    {link.label}
-                  </motion.a>
+                    <motion.div
+                      className="text-gray-700 hover:text-blue-600 transition-colors px-2 py-1"
+                      initial={{ x: -20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      {link.label}
+                    </motion.div>
+                  </Link>
                 ))}
                 <div className="flex flex-col gap-2 pt-4 border-t border-gray-200">
                   <Link to="/login">
-                  <Button variant="ghost" className="w-full justify-start text-gray-700">
-                    Sign In
-                  </Button>
+                    <Button variant="ghost" className="w-full justify-start text-gray-700">
+                      Sign In
+                    </Button>
                   </Link>
                   <Link to="/login">
-                  <Button className="w-full bg-gray-900 hover:bg-black text-white">
-                    Start Free
-                  </Button>
+                    <Button className="w-full bg-gray-900 hover:bg-black text-white">
+                      Start Free
+                    </Button>
                   </Link>
                 </div>
               </nav>

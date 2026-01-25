@@ -5,6 +5,7 @@ import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/input";
 import { Label } from "@/components/label";
+import { Navigate } from "react-router-dom";
 
 
 
@@ -44,12 +45,40 @@ export default function Login() {
   const { register, handleSubmit } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const onSubmit = async (data) => {
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    console.log("Login data:", data);
-    setLoading(false);
+    setError("");
+
+    try {
+      const formData = new URLSearchParams();
+      formData.append('username', data.email);
+      formData.append('password', data.password);
+
+      const response = await fetch('http://localhost:8000/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Invalid credentials');
+      }
+
+      const result = await response.json();
+      localStorage.setItem('token', result.access_token);
+      setSuccess(true);
+      console.log("Login successful");
+    } catch (err) {
+      console.error(err);
+      setError("Invalid email or password");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -141,7 +170,9 @@ export default function Login() {
               className="w-full bg-white text-slate-900 hover:bg-white/90 h-11 font-semibold"
             >
               {loading ? "Authenticating…" : "Enter Exam Hub"}
+              {success && <Navigate to="/dashboard" />}
             </Button>
+            {error && <p className="text-red-400 text-sm text-center mt-2">{error}</p>}
           </motion.div>
         </form>
 
