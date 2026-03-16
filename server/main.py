@@ -1,79 +1,38 @@
-from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import FastAPI 
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from datetime import timedelta
-from sqlalchemy.orm import Session
-from core.security import verify_password, get_password_hash, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
-from db import models, database
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceBgeEmbeddings
+from langchain_community.llms import Ollama
+from langchain.chains import RetrievalQA
 
-# Create tables
-models.Base.metadata.create_all(bind=database.engine)
+app = FastAPI("Exam Hub API")
 
-app = FastAPI(title="Exam Hub API")
-
-# Dependency
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-# CORS Configuration
-origins = [
-    "http://localhost:3000",
-    "http://localhost:5173", # Vite default
-]
-
-app.add_middleware(
+app.add_mddleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
-# Seed Data
-@app.on_event("startup")
-def startup_event():
-    db = database.SessionLocal()
-    user = db.query(models.User).filter(models.User.email == "test@example.com").first()
-    if not user:
-        hashed_password = get_password_hash("password")
-        db_user = models.User(email="test@example.com", hashed_password=hashed_password)
-        db.add(db_user)
-        db.commit()
-    db.close()
+embeddings = HuggingFaceBgeEmbeddings(model_name="BAAI/bge-m3")
+vector_db = Chroma(persist_directory="./uace_db", embedding_function=embeddings)
+llm = Ollama(model="deepseek-r1:7b")
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    chain_type="stuff",
+    retriever = vector_db.as_retriever(search_kwargs={"k": 3})
+)
 
-@app.post("/token", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.email == form_data.username).first()
+class StudentQuery(BaseModel):
+    question: str
+
+@app.post("/ask")
+async def ask_tutor(query: StudentQuery):
+    result = qa_chain.invoke(query.question)
+    return {
+        "question": query.question,
+        "answer": result["result"]
+    }
     
-    if not user:
-        # Auto-register new user
-        hashed_password = get_password_hash(form_data.password)
-        user = models.User(email=form_data.username, hashed_password=hashed_password)
-        db.add(user)
-        db.commit()
-        db.refresh(user)
-    elif not verify_password(form_data.password, user.hashed_password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
-
-@app.get("/")
-async def root():
-    return {"message": "Exam Hub API is running"}
